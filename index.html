@@ -253,8 +253,16 @@ function pressScreen(e) {
   aim(e);
 }
 
-cv.addEventListener('pointerdown', pressScreen);
+let pointerHandled = false;
+cv.addEventListener('pointerdown', e => {
+  pointerHandled = true;
+  pressScreen(e);
+});
 cv.addEventListener('click', e => {
+  if (pointerHandled) {
+    pointerHandled = false;
+    return;
+  }
   if (mode === 'fork' || mode === 'win') pressScreen(e);
 });
 cv.addEventListener('pointermove', e => { if (drag) aim(e); });
